@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Encryption &amp; Decryption — Caesar Cipher</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="scanline"></div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <span class="brand-mark">&#128274;</span>
+        <div>
+          <h1>Basic Encryption &amp; Decryption</h1>
+          <p class="subtitle">Caesar Cipher Security Demonstration</p>
+        </div>
+      </div>
+      <div class="shift-badge" id="live-formula">E(x) = (x + n) mod 26</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- WORKBENCH -->
+    <section class="panel workbench" aria-labelledby="workbench-heading">
+      <h2 id="workbench-heading">Cipher Workbench</h2>
+
+      <div class="field">
+        <label for="plaintext">Message</label>
+        <textarea id="plaintext" rows="5" placeholder="Type or paste the message you want to protect..."></textarea>
+      </div>
+
+      <div class="control-row">
+        <div class="field field-shift">
+          <label for="shift">Shift key (n)</label>
+          <input type="number" id="shift" value="3" />
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="btn-encrypt">Encrypt</button>
+          <button class="btn btn-secondary" id="btn-decrypt">Decrypt</button>
+          <button class="btn btn-ghost" id="btn-clear">Clear</button>
+        </div>
+      </div>
+
+      <p class="error-msg" id="error-msg" role="alert"></p>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="panel output-grid" aria-labelledby="output-heading">
+      <h2 id="output-heading">Results</h2>
+
+      <div class="output-cards">
+        <div class="output-card">
+          <span class="output-label">Original Text</span>
+          <pre class="output-value" id="out-original">—</pre>
+        </div>
+        <div class="output-card">
+          <span class="output-label">Encrypted Text (Ciphertext)</span>
+          <pre class="output-value" id="out-encrypted">—</pre>
+        </div>
+        <div class="output-card">
+          <span class="output-label">Decrypted Text</span>
+          <pre class="output-value" id="out-decrypted">—</pre>
+        </div>
+      </div>
+
+      <p class="verify-msg" id="verify-msg"></p>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section class="panel glossary" aria-labelledby="glossary-heading">
+      <h2 id="glossary-heading">Key Terms</h2>
+      <dl>
+        <div class="term">
+          <dt>Plaintext</dt>
+          <dd>The original, readable message before any protection is applied.</dd>
+        </div>
+        <div class="term">
+          <dt>Encryption</dt>
+          <dd>The process of transforming plaintext into an unreadable form using a rule and a key.</dd>
+        </div>
+        <div class="term">
+          <dt>Ciphertext</dt>
+          <dd>The scrambled output produced by encryption. Unreadable without the key.</dd>
+        </div>
+        <div class="term">
+          <dt>Decryption</dt>
+          <dd>Reversing encryption to recover the original plaintext, using the same key.</dd>
+        </div>
+        <div class="term">
+          <dt>Shift key</dt>
+          <dd>The number of positions each letter is moved along the alphabet.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="panel how-it-works" aria-labelledby="how-heading">
+      <h2 id="how-heading">How It Works</h2>
+
+      <div class="flow-columns">
+        <div class="flow">
+          <h3>Encryption path</h3>
+          <ol class="flow-steps">
+            <li>Plaintext</li>
+            <li>Character conversion (letter &rarr; number)</li>
+            <li>Caesar shift + key</li>
+            <li>Modulo 26</li>
+            <li>Ciphertext</li>
+          </ol>
+        </div>
+        <div class="flow">
+          <h3>Decryption path</h3>
+          <ol class="flow-steps">
+            <li>Ciphertext</li>
+            <li>Reverse shift &minus; key</li>
+            <li>Modulo 26</li>
+            <li>Plaintext</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section class="panel example" aria-labelledby="example-heading">
+      <h2 id="example-heading">Worked Example</h2>
+      <div class="example-grid">
+        <div><span class="example-label">Plaintext</span><code>HELLO</code></div>
+        <div><span class="example-label">Shift</span><code>3</code></div>
+        <div><span class="example-label">Encrypted</span><code>KHOOR</code></div>
+        <div><span class="example-label">Decrypted</span><code>HELLO</code></div>
+      </div>
+    </section>
+
+    <!-- SECURITY NOTE -->
+    <section class="panel security-note" aria-labelledby="security-heading">
+      <h2 id="security-heading">Security Note</h2>
+      <p>
+        The Caesar Cipher is a useful tool for learning the fundamentals of encryption — how a key
+        transforms a message and how that transformation can be reversed. It is <strong>not</strong>
+        suitable for protecting real confidential data. Its key space is tiny (only 25 possible
+        shifts), so it can be brute-forced in seconds, and it preserves the letter-frequency
+        patterns of the original language, which makes it vulnerable to frequency analysis. Modern
+        systems rely on algorithms such as AES or RSA, which use vastly larger key spaces and
+        mathematically hardened structures.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Educational cybersecurity project — Caesar Cipher demonstration. Not intended for real-world data protection.</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

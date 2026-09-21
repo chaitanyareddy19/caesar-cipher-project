@@ -1,0 +1,403 @@
+/* ---------------------------------------------------------------------
+   Token system
+   Background:  #0B1220 (near-navy, not pure black)
+   Surface:     #121B2A
+   Border:      #223349
+   Text:        #E7EDF5
+   Muted text:  #8FA0B5
+   Accent (key/action): #E8A33D  (amber — the "key" color)
+   Accent (verified):   #3ED9A0  (mint — the "confirmed" color)
+   Accent (error):      #F0654A  (coral)
+------------------------------------------------------------------------ */
+
+:root {
+  --bg: #0B1220;
+  --surface: #121B2A;
+  --surface-raised: #16223400;
+  --border: #223349;
+  --text: #E7EDF5;
+  --muted: #8FA0B5;
+  --amber: #E8A33D;
+  --amber-dim: #7a5c26;
+  --mint: #3ED9A0;
+  --coral: #F0654A;
+  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+
+body {
+  background-image:
+    linear-gradient(180deg, rgba(232,163,61,0.05), transparent 240px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
+}
+
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------------- Header ---------------- */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 28px 0;
+  background: linear-gradient(180deg, rgba(232,163,61,0.06), transparent);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-mark {
+  font-size: 34px;
+  filter: drop-shadow(0 0 10px rgba(232,163,61,0.45));
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.shift-badge {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--amber);
+  border: 1px solid var(--amber-dim);
+  padding: 8px 14px;
+  border-radius: 4px;
+  background: rgba(232,163,61,0.06);
+  white-space: nowrap;
+}
+
+/* ---------------- Panels ---------------- */
+
+.panel {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 28px;
+  margin-top: 24px;
+}
+
+.panel h2 {
+  margin: 0 0 20px;
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---------------- Workbench ---------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.field label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+textarea, input[type="number"] {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  background: #0D1524;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+textarea:focus, input[type="number"]:focus {
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+  border-color: var(--amber-dim);
+}
+
+.control-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.field-shift { max-width: 140px; margin-bottom: 0; }
+.field-shift input { width: 100%; }
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 20px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--amber);
+  color: #1A1204;
+}
+.btn-primary:hover { filter: brightness(1.08); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--mint);
+  border-color: var(--mint);
+}
+.btn-secondary:hover { background: rgba(62,217,160,0.08); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--border);
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+.error-msg {
+  margin: 16px 0 0;
+  color: var(--coral);
+  font-size: 14px;
+  min-height: 1em;
+}
+
+/* ---------------- Output ---------------- */
+
+.output-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.output-card {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber-dim);
+  border-radius: 4px;
+  padding: 14px 16px;
+  background: #0D1524;
+}
+
+.output-label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.output-value {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.verify-msg {
+  margin: 18px 0 0;
+  font-size: 14px;
+  font-family: var(--font-mono);
+  min-height: 1em;
+}
+
+.verify-msg.ok { color: var(--mint); }
+.verify-msg.fail { color: var(--coral); }
+
+/* ---------------- Glossary ---------------- */
+
+.glossary dl { margin: 0; }
+.term {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.term:last-child { border-bottom: none; }
+.term dt {
+  font-family: var(--font-mono);
+  color: var(--amber);
+  font-size: 14px;
+}
+.term dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ---------------- How it works ---------------- */
+
+.flow-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.flow h3 {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.flow-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: step;
+}
+
+.flow-steps li {
+  counter-increment: step;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  padding: 10px 0 10px 34px;
+  position: relative;
+  border-left: 1px dashed var(--border);
+  margin-left: 10px;
+}
+
+.flow-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: -11px;
+  top: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--amber-dim);
+  color: var(--amber);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flow-steps li:last-child { border-left: none; }
+
+/* ---------------- Example ---------------- */
+
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.example-grid div {
+  background: #0D1524;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.example-label {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.example-grid code {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--mint);
+}
+
+/* ---------------- Security note ---------------- */
+
+.security-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14.5px;
+}
+
+.security-note strong {
+  color: var(--coral);
+}
+
+/* ---------------- Footer ---------------- */
+
+.site-footer {
+  margin-top: 40px;
+  padding: 24px 0 40px;
+  color: var(--muted);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+/* ---------------- Scanline flourish (single, subtle, load-in only) ---------------- */
+
+.scanline {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  opacity: 0.6;
+  animation: scan 2.4s ease-out 1;
+  z-index: 5;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0%   { top: 0; opacity: 0.9; }
+  100% { top: 100vh; opacity: 0; }
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 640px) {
+  .flow-columns { grid-template-columns: 1fr; }
+  .example-grid { grid-template-columns: 1fr 1fr; }
+  .term { grid-template-columns: 1fr; }
+  .header-inner { align-items: flex-start; }
+}
